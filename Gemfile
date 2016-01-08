@@ -22,6 +22,8 @@ gem "responders"
 gem "traceroute"
 gem "rails_12factor", group: :production
 gem "populator"
+gem "will_paginate"
+gem "newrelic_rpm"
 
 group :development, :test do
   gem "pry-rails"
