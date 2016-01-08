@@ -3,47 +3,49 @@
   <li><a href="/browse">Browse Loan Requests</a></li>
 </ul>
 <!-- Page Content -->
-<div class="container">
+<% cache do %>
+  <div class="container">
 
-  <!-- Portfolio Item Heading -->
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header pull-left"><%= @loan_request.title %>
-      <small><%= @loan_request.owner %></small>
-      </h1>
+    <!-- Portfolio Item Heading -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header pull-left"><%= @loan_request.title %>
+        <small><%= @loan_request.owner %></small>
+        </h1>
+      </div>
     </div>
-  </div>
-  <!-- /.row -->
+    <!-- /.row -->
 
-  <!-- Portfolio Item Row -->
-  <div class="row">
+    <!-- Portfolio Item Row -->
+    <div class="row">
 
-    <div class="col-md-8">
-      <img class="img-responsive" src=<%= @loan_request.image_url %> alt="">
-    </div>
+      <div class="col-md-8">
+        <img class="img-responsive" src=<%= @loan_request.image_url %> alt="">
+      </div>
 
-    <div class="col-md-4">
-      <h3>Loan Overview</h3>
-      <p><%= @loan_request.description %></p>
-      <h3>Loan Details</h3>
-      <ul>
-        <li>Requested by <%= @loan_request.requested_by %></li>
-        <li>Begins Repayment on <%= @loan_request.repayment_begin %></li>
-        <li>Repayment rate: <%= @loan_request.repayment_rate.capitalize %></li>
-        <li>Category: <% @loan_request.categories.each do |cat| %>
-          <%= cat.title.capitalize %>
+      <div class="col-md-4">
+        <h3>Loan Overview</h3>
+        <p><%= @loan_request.description %></p>
+        <h3>Loan Details</h3>
+        <ul>
+          <li>Requested by <%= @loan_request.requested_by %></li>
+          <li>Begins Repayment on <%= @loan_request.repayment_begin %></li>
+          <li>Repayment rate: <%= @loan_request.repayment_rate.capitalize %></li>
+          <li>Category: <% @loan_request.categories.each do |cat| %>
+            <%= cat.title.capitalize %>
+          <% end %>
+          </li>
+          <li>Loan Amount: <%= number_to_currency(@loan_request.amount) %></li>
+          <li>Loan Contribution: <%= number_to_currency(@loan_request.contributed) %></li>
+        </ul>
+        <br>
+        <%  if !current_borrower? %>
+        <%= link_to "Contribute $25", cart_path(loan_request: @loan_request.id.to_i, amount: 25), method: 'post', class: "btn btn-info" %>
         <% end %>
-        </li>
-        <li>Loan Amount: <%= number_to_currency(@loan_request.amount) %></li>
-        <li>Loan Contribution: <%= number_to_currency(@loan_request.contributed) %></li>
-      </ul>
-      <br>
-      <%  if !current_borrower? %>
-      <%= link_to "Contribute $25", cart_path(loan_request: @loan_request.id.to_i, amount: 25), method: 'post', class: "btn btn-info" %>
-      <% end %>
-    </div>
+      </div>
 
-  </div>
+    </div>
+<% end %>
   <!-- /.row -->
 
   <!-- Related Projects Row -->
