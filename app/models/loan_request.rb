@@ -75,8 +75,10 @@ class LoanRequest < ActiveRecord::Base
   end
 
   def project_contributors
-    LoanRequestsContributor.where(loan_request_id: self.id).pluck(:user_id).map do |user_id|
-      User.find(user_id)
+    Rails.cache.fetch("project-contributors") do
+      LoanRequestsContributor.where(loan_request_id: self.id).pluck(:user_id).map do |user_id|
+        User.find(user_id)
+      end
     end
   end
 
